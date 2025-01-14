@@ -4,9 +4,10 @@
 */
 
 #include "PIT.h"
-#include "...\SDK\CMSIS\MK64F12.h" 		// Biblioteca del microcontrolador MK64F12
-#include    "..\SDK\startup\hardware.h"		// Definiciones de hardware
-#include    "..\MCAL\gpio.h"
+#include "MK64F12.h" 		// Biblioteca del microcontrolador MK64F12
+#include "hardware.h"		// Definiciones de hardware
+#include "..\MCAL\gpio.h"
+#include "string.h"
 
 #define REFERENCE ((float)(0.02))	// Referencia de tiempo en microsegundos, usada para el cálculo del valor de cuenta
 
@@ -22,7 +23,6 @@ static TIMER_t timer[MAXTIMERS];	// Array de temporizadores (hasta 4 timers)
 // Habilita los times del PIT
 void initPIT()
 {
-
 	SIM->SCGC6 |= SIM_SCGC6_PIT_MASK;	// Habilita el reloj para el PIT
 	PIT->MCR = 0;						// Deshabilita el PIT en modo de parada (MCR = 0)
 	// Habilita las interrupciones para los 4 canales del PIT (de 0 a 3)

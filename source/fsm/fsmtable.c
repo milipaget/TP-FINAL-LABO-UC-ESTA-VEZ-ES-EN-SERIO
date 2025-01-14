@@ -140,7 +140,7 @@ static void changeToSongError(void){
 }
 
 static void changeToNoError(void){
-	mp3ConfigVariables.errorType = NONE;
+	mp3ConfigVariables.errorType = NO_ERROR;
 }
 
 static void checkSD(void){

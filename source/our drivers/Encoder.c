@@ -4,40 +4,9 @@
 #include    "..\MCAL\gpio.h"        // Configuración de los gpio: qué pin y en qué modo...
 #include    "..\pinout.h"      // Configuración relqacionada a la placa -> qué pines de qué puerto usa
 #include    <stdlib.h>         // :)
-//#include "..\Queue.h"
 #include "..\MCAL\board.h"
 #include "..\eventos\eventQueue.h"     // Para poner el evento en la cola
 
-
-/*
-
-    Si se detecta un giro se pone el evento en la cola         putEvent(EncoderLeft);  // Registrar evento de giro antihorario
-
-
-    En eventQueue están definidos los eventos
-        typedef enum event_type
-    {
-        None,
-        EncoderLeft,
-        EncoderRight,
-        EncoderClick,
-        ButtonCross,
-        ButtonPoint,
-        ButtonLine
-    } event_t;
-
-
-    El estado se usa después en la tabla de estados:
-        STATE st_eq[] =
-    {
-        {EncoderLeft,st_eq,changeEqLeft},
-        {EncoderRight,st_eq,changeEqRight},
-        {ButtonLine,st_rep,goToRepFromEq},
-        {EncoderClick, st_off, turnOff},
-        {FIN_TABLA,st_eq,do_nothing}
-    };
-
-*/
 
 // Estados activos para las señales del encoder
 #define SWITCH_ACTIVE LOW  // Estado activo para el botón del encoder
@@ -66,56 +35,56 @@ static void rebootEncoderDetection(void);  // Rehabilita detección tras tempori
 bool initEncoder(void) {
 
     // Configurar pines del encoder como entradas
-    gpioMode(ENCODER_OUT_A, INPUT);
-    gpioMode(ENCODER_OUT_B, INPUT);
+    gpioMode(PORT_ENCODER_RCHA, INPUT);
+    gpioMode(PORT_ENCODER_RCHB, INPUT);
 
     // Asignar callbacks a las interrupciones de los pines
-    if (gpioIRQ(ENCODER_OUT_A, GPIO_IRQ_MODE_FALLING_EDGE, &encoderACallback)) {
+    if (gpioIRQ(PORT_ENCODER_RCHA, GPIO_IRQ_MODE_FALLING_EDGE, &encoderACallback)) {
         return true; // Error al configurar interrupción
     }
-    if (gpioIRQ(ENCODER_OUT_B, GPIO_IRQ_MODE_FALLING_EDGE, &encoderBCallback)) {
+    if (gpioIRQ(PORT_ENCODER_RCHB, GPIO_IRQ_MODE_FALLING_EDGE, &encoderBCallback)) {
         return true; // Error al configurar interrupción
     }
 
     // Crear temporizador para manejar eventos del encoder: ONESHOT -> Al terminar este tiempo activa el encoder de nuevo
-    rotaryTimerID = createTimer_SYS(ENCODER_EVENT_DELAY, &rebootEncoderDetection, ONESHOT);
+    rotaryTimerID = createTimer(ENCODER_EVENT_DELAY, &rebootEncoderDetection, TIM_MODE_SINGLESHOT);
     return false; // Inicialización exitosa
 }
 
 // Callback para el canal A del encoder
 static void encoderACallback(void) {
     // Ignorar entrada si está bloqueada o el pin A no está activo
-    if (ignoreRotaryInput || gpioRead(ENCODER_OUT_A) != ROTARY_ACTIVE) {
+    if (ignoreRotaryInput || gpioRead(PORT_ENCODER_RCHA) != ROTARY_ACTIVE) {
         return;
     }
 
     // Verificar estado del canal B para determinar el sentido -> Si gira en sentido antihorario B se prende antes que A
-    if (gpioRead(RCHB_PIN)) {
+    if (gpioRead(PORT_ENCODER_RCHB)) {
         // Movimiento antihorario detectado
         putEvent(EncoderLeft);  // Registrar evento de giro antihorario
     }
 
     // Bloquear nuevas entradas y activar temporizador
     ignoreRotaryInput = true;
-    startTimer_SYS(rotaryTimerID);  // Se detectó recién que se prendió el A, no me fijo por un ratito
+    timerStart(rotaryTimerID);  // Se detectó recién que se prendió el A, no me fijo por un ratito
 }
 
 // Callback para el canal B del encoder
 static void encoderBCallback(void) {
     // Ignorar entrada si está bloqueada o el pin B no está activo
-    if (ignoreRotaryInput || gpioRead(ENCODER_OUT_B) != ROTARY_ACTIVE) {
+    if (ignoreRotaryInput || gpioRead(PORT_ENCODER_RCHB) != ROTARY_ACTIVE) {
         return;
     }
 
     // Verificar estado del canal A para determinar el sentido -> Si gira en sentido horario A se prende antes que B
-    if (gpioRead(ENCODER_OUT_A)) {
+    if (gpioRead(PORT_ENCODER_RCHA)) {
         // Movimiento horario detectado
         putEvent(EncoderRight);  // Registrar evento de giro horario
     }
 
     // Bloquear nuevas entradas y activar temporizador
     ignoreRotaryInput = true;
-    startTimer_SYS(rotaryTimerID); // Se detectó recién que se prendió el B, no me fijo por un ratito
+    timerStart(rotaryTimerID); // Se detectó recién que se prendió el B, no me fijo por un ratito
 }
 
 // Rehabilita la detección de entradas del encoder
@@ -126,7 +95,7 @@ static void rebootEncoderDetection(void) {
 void buttonEncoder_ISR(void){
 
 	static bool buttonState_ = HIGH;
-		bool state = gpioRead(BUTTON_ENCODER_PIN);
+		bool state = gpioRead(PORT_ENCODER_BUTTON);
 
 		if(buttonState_ == HIGH && state == LOW){
 

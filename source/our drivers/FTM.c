@@ -9,7 +9,7 @@
  ******************************************************************************/
 #include <our drivers/FTM.h>              // Librería FTM para control del temporizador
 #include    "..\MCAL\gpio.h"             // Librería GPIO para manejar pines
-#include "...\SDK\CMSIS\MK64F12.h"          // Definiciones específicas del microcontrolador K64
+#include "MK64F12.h"          // Definiciones específicas del microcontrolador K64
 #include <stdlib.h>           // Funciones estándar de C
 #include <stdint.h>           // Tipos de datos estándar
 #include <stdbool.h>          // Soporte para valores booleanos
@@ -17,33 +17,6 @@
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
-
-// Modos de configuración de pines
-typedef enum
-{
-	PORT_mAnalog,           // Modo analógico
-	PORT_mGPIO,             // Modo GPIO
-	PORT_mAlt2,             // Función alternativa 2
-	PORT_mAlt3,             // Función alternativa 3
-	PORT_mAlt4,             // Función alternativa 4
-	PORT_mAlt5,             // Función alternativa 5
-	PORT_mAlt6,             // Función alternativa 6
-	PORT_mAlt7,             // Función alternativa 7
-} PORTMux_t;
-
-// Tipos de eventos que pueden ocurrir en los puertos
-typedef enum
-{
-	PORT_eDisabled = 0x00,         // Deshabilitado
-	PORT_eDMARising = 0x01,        // Evento DMA por flanco de subida
-	PORT_eDMAFalling = 0x02,       // Evento DMA por flanco de bajada
-	PORT_eDMAEither = 0x03,        // Evento DMA por cualquier flanco
-	PORT_eInterruptDisasserted = 0x08,   // Interrupción por desactivación
-	PORT_eInterruptRising = 0x09,        // Interrupción por flanco de subida
-	PORT_eInterruptFalling = 0x0A,       // Interrupción por flanco de bajada
-	PORT_eInterruptEither = 0x0B,        // Interrupción por cualquier flanco
-	PORT_eInterruptAsserted = 0x0C,      // Interrupción por activación
-} PORTEvent_t;
 
 /*******************************************************************************
  * VARIABLES WITH GLOBAL SCOPE
@@ -245,7 +218,7 @@ void FTM_SetInputCaptureChannelSource(FTM_t ftm, FTM_InputCaptureSource_t source
 	}
 }
 
-void FTM_GetInputCaptureChannelSource(FTM_t ftm, FTM_InputCaptureSource_t source)
+int FTM_GetInputCaptureChannelSource(FTM_t ftm, FTM_InputCaptureSource_t source)
 {
 	// Obtiene la fuente de captura de entrada configurada para el canal
 	switch ((uint32_t)ftm)
@@ -256,6 +229,9 @@ void FTM_GetInputCaptureChannelSource(FTM_t ftm, FTM_InputCaptureSource_t source
 
 	case (uint32_t)FTM2:
 		return (SIM->SOPT4 & SIM_SOPT4_FTM2CH0SRC_MASK) >> SIM_SOPT4_FTM2CH0SRC_SHIFT;
+		break;
+	default:
+		return 0; //Esto lo ponemos para q no joda pero si se rompe algo ver esto :) besos
 		break;
 	}
 }

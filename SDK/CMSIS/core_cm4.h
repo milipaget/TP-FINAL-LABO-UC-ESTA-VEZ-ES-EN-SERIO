@@ -1633,7 +1633,6 @@ typedef struct
 #define NVIC_USER_IRQ_OFFSET          16
 
 
-
 /**
   \brief   Set Priority Grouping
   \details Sets the priority grouping field using the required unlock sequence.

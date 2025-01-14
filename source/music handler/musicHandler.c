@@ -30,8 +30,8 @@
 #include "peripherals.h"
 #include "board.h"
 #include "pin_mux.h"
-#include "equalizer.h"
-#include "vumeter.h"
+//#include "equalizer.h"
+//#include "vumeter.h"
 //#include "fsl_port.h" //Este no sé si hay que agregarlo o no :)
 #include "../eventos/eventQueue.h"
 

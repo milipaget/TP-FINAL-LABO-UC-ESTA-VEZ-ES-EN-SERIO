@@ -15,20 +15,15 @@
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
 //Pines utilizados para el encoder
-#define PORT_ENCODER_RCHA
-#define PORT_ENCODER_RCHB
-#define PORT_ENCODER_BUTTON
+#define PORT_ENCODER_RCHA PORTNUM2PIN(PB, 2)
+#define PORT_ENCODER_RCHB PORTNUM2PIN(PB, 3)
+#define PORT_ENCODER_BUTTON PORTNUM2PIN(PC, 5)
 
 //Pines utilizados para los botones
 #define ON_OFF_BUTTON_PIN 8
 #define NEXT_BUTTON_PIN 9
 #define PREV_BUTTON_PIN 10
 #define CHANGE_FILTER_BUTTON_PIN 11
-
-// Pines para encoder
-#define ENCODER_OUT_A PORTNUM2PIN(PB, 2)
-#define ENCODER_OUT_B PORTNUM2PIN(PB, 3)
-#define BUTTON_ENCODER_PIN PORTNUM2PIN(PC, 5) // Botón del encoder
 
 //Pines utilizados para la matriz de LEDs
 

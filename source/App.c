@@ -16,8 +16,8 @@
 
 //#include "player.h"
 
-#include "fsm.h"
-#include "fsmtable.h" /*FSM Table*/
+#include "fsm/fsm.h"
+#include "fsm/fsmtable.h" /*FSM Table*/
 
 #include "MCAL/gpio.h"
 //#include "protocols/I2C.h"

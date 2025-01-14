@@ -24,7 +24,7 @@
 // Definiciones de colores en degradé de amarillo a rojo
 #define COLOR_YELLOW (0xFFFF00)
 #define COLOR_LIGHT_ORANGE (0xFFCC00)
-#define COLOR_ORANGE (0xFF9900)
+#define COLOR_ORANGE_2 (0xFF9900)
 #define COLOR_DARK_ORANGE (0xFF6600)
 #define COLOR_RED_ORANGE (0xFF3300)
 #define COLOR_LIGHT_RED (0xFF0033)

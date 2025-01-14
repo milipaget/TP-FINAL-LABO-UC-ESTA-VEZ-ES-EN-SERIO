@@ -29,12 +29,12 @@
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
 //const char *eqTypes[EQTYPE] = {"None", "Rock", "Pop", "Bass"};
-enum filterTypes{NONE, ROCK, POP, BASS};
-enum errorTypes{NONE, NO_SD, NO_SONGS};
+enum filterTypes{NO_FILTER, ROCK, POP, BASS};
+enum errorTypes{NO_ERROR, NO_SD, NO_SONGS};
 
 typedef struct 
 {
-	  uint8_t volume;
+	uint8_t volume;
     uint8_t songPointer;
     bool isPlaying;
     bool isOn;
@@ -45,7 +45,7 @@ typedef struct
 /*******************************************************************************
  * VARIABLE PROTOTYPES WITH GLOBAL SCOPE
  ******************************************************************************/
-static int songNum;//Esta variable se actualiza cuando se inserta la SD card (uint8_t???)
+static int songNum; //Esta variable se actualiza cuando se inserta la SD card (uint8_t???)
 static mp3config_variables_t mp3ConfigVariables;
 //mp3config_variables* pointer2config = mp3ConfigVariables
 

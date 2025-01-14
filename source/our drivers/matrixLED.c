@@ -2,8 +2,7 @@
 #include <our drivers/matrixLED.h>   // :)
 #include <our drivers/PIT.h>        // Algo de los timers
 #include <our drivers/PWM.h>        // Para mandar a la matriz 
-
-#include "...\SDK\CMSIS\MK64F12.h"    // De la plaquitax
+#include "MK64F12.h"    // De la plaquitax
 #include    "..\pinout.h"     // Configura qué pines se usan para x cosa
 
 // En config.h  #define DIN_PIN PORTNUM2PIN(PB, 9) // GPIO to transfer leds data
@@ -26,6 +25,8 @@
 #define LED_ON (1)
 #define LED_OFF (0)
 
+typedef enum {GREEN_STATE, RED_STATE, BLUE_STATE} color_states_t;
+
 // Estructura para representar el estado de un LED
 typedef struct {
     LED_Color_t color;
@@ -39,9 +40,8 @@ static LED_State_t ledMatrix[TOTAL_LEDS] = {0};
 static uint16_t pwmBuffer[TOTAL_LEDS * LED_BITS_PER_PIXEL + 2] = {0};
 
 // Color default de los LEDs
-    LED_Color_t defaultColorLED;
-    defaultColorLED.hexColor = COLOR_OFF;
-    defaultColorLED.brightness = ledBrightness;
+static LED_Color_t defaultColorLED;
+
 
 // Variables de funcionamiento
 static uint8_t ledBrightness = MAX_BRIGHTNESS / 6;
@@ -56,6 +56,9 @@ static void toggleBlinkingLEDs(void);
 
 // Inicializa la matriz con todos los leds en defaultColorLED
 void initializeLEDMatrix(void) {
+
+    defaultColorLED.hexColor = COLOR_OFF;
+    defaultColorLED.brightness = ledBrightness;
 
     for (int row = 0; row < MATRIX_ROWS; row++) {
         for (int col = 0; col < MATRIX_COLS; col++) {
@@ -142,7 +145,7 @@ static void handleRefreshEnd(void) {
 
 static void updateLEDMatrix(void) {
     int currentBit = 7;  // Posición del bit actual que se está procesando.
-    states currentColor = G;  // Comienza con el componente de color verde.
+    color_states_t currentColor = GREEN_STATE;  // Comienza con el componente de color verde.
     uint8_t bitValue = 0;  // Valor del bit a escribir en el buffer PWM.
     uint8_t tempColor;  // Color temporal escalado según el brillo.
 
@@ -152,24 +155,24 @@ static void updateLEDMatrix(void) {
             // Si el LED está encendido:
             if (ledMatrix[i].isOn == LED_ON) {
                 switch (currentColor) {
-                case G:     // Procesar el componente verde del color.
+                case GREEN_STATE:     // Procesar el componente verde del color.
                     tempColor = SCALE_COLOR(ledMatrix[i].color.green, ledBrightness);   // Ajusta el brillo del componente verde.
                     bitValue = (tempColor >> currentBit) & 0x1;                         // Extrae el bit actual del componente verde.
-                    currentColor = currentBit-- == 0 ? R : currentColor;                // Cambia al componente rojo si se han procesado todos los bits del verde.
+                    currentColor = currentBit-- == 0 ? RED_STATE : currentColor;                // Cambia al componente rojo si se han procesado todos los bits del verde.
                     currentBit = currentBit < 0 ? 7 : currentBit;                       // Reinicia el bit actual a 7 si llega a -1.
                     break;
 
-                case R:     // Procesar el componente rojo del color.
+                case RED_STATE:     // Procesar el componente rojo del color.
                     tempColor = SCALE_COLOR(ledMatrix[i].color.red, ledBrightness);
                     bitValue = (tempColor >> currentBit) & 0x1;
-                    currentColor = currentBit-- == 0 ? B : currentColor;
+                    currentColor = currentBit-- == 0 ? BLUE_STATE : currentColor;
                     currentBit = currentBit < 0 ? 7 : currentBit;
                     break;
 
-                case B:     // Procesar el componente azul del color.
+                case BLUE_STATE:     // Procesar el componente azul del color.
                     tempColor = SCALE_COLOR(ledMatrix[i].color.blue, ledBrightness);
                     bitValue = (tempColor >> currentBit) & 0x1;
-                    currentColor = currentBit-- == 0 ? G : currentColor;
+                    currentColor = currentBit-- == 0 ? GREEN_STATE : currentColor;
                     currentBit = currentBit < 0 ? 7 : currentBit;
                     break;
                 }

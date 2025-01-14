@@ -125,7 +125,7 @@ void FTM_ClearInterruptFlag(FTM_t, FTMChannel_t);
 void FTM_DmaMode(FTM_t ftm, FTMChannel_t channel, bool dma_mode);
 
 void FTM_SetInputCaptureChannelSource(FTM_t ftm, FTM_InputCaptureSource_t source);
-void FTM_GetInputCaptureChannelSource(FTM_t ftm, FTM_InputCaptureSource_t source);
+int FTM_GetInputCaptureChannelSource(FTM_t ftm, FTM_InputCaptureSource_t source);
 /*******************************************************************************
  ******************************************************************************/
 

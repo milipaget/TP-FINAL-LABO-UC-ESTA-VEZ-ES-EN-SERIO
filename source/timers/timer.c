@@ -80,7 +80,7 @@ uint8_t createTimer(uint32_t time, tim_callback_t callback, tim_modes_t mode){
 			timers[tim_id].state = TIM_STATE_SELECTED;
 			timers[tim_id].time = time;
 			timers[tim_id].callback = callback;
-			resetTimer_SYS(tim_id);
+			resetTimer(tim_id);
 			found = true;
 		}
 		else{
@@ -112,13 +112,13 @@ void resetTimer(uint8_t tim_id){
 	timers[tim_id].counter = 0;
 }
 
-void startTimer(uint8_t tim_id){
+void timerStart(uint8_t tim_id){
 	timers[tim_id].counter = 0;
 	if (timers[tim_id].state != TIM_STATE_FREE)
 		timers[tim_id].state = TIM_STATE_RUNNING;
 }
 
-void stopTimer(uint8_t tim_id){
+void timerStop(uint8_t tim_id){
 	if (timers[tim_id].state != TIM_STATE_FREE)
 		timers[tim_id].state = TIM_STATE_RUNNING;
 	timers[tim_id].counter = 0;

@@ -26,7 +26,7 @@
  * VARIABLE PROTOTYPES WITH GLOBAL SCOPE
  ******************************************************************************/
 static canFrame_t MbBuffer[CAN_ID_COUNT];
-void callback(canFrame_t *frame, CAN_STATUS s);
+void callback(canFrame_t *frame, STATUS_READ s);
 static 	canFrame_t frameTx;
 
 /*******************************************************************************
@@ -158,7 +158,7 @@ int16_t charsToInt16(uint32_t length, uint8_t * chars) {
 	return (valor*signo);
  }
 
- void callback(canFrame_t *frame, CAN_STATUS s){
+ void callback(canFrame_t *frame, STATUS_READ s){
 	 if(s != READ_FAIL){
 		 if(IS_ID_OK((frame->ID)-0x100)){
 			 MbBuffer[(frame->ID)-(0x100)] = *frame;

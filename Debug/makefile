@@ -29,6 +29,7 @@ RM := rm -rf
 -include board/subdir.mk
 -include SDK/startup/subdir.mk
 -include SDK/CMSIS/subdir.mk
+-include CMSIS/subdir.mk
 -include subdir.mk
 -include objects.mk
 

@@ -23,8 +23,8 @@ void initMp3Config(void){
     mp3ConfigVariables.songPointer = 0; //uint8_t
     mp3ConfigVariables.isPlaying = false;
     mp3ConfigVariables.isOn = true;
-    mp3ConfigVariables.errorType = NONE; //uint8_t
-    mp3ConfigVariables.filterType = NONE; //uint8_t
+    mp3ConfigVariables.errorType = NO_ERROR; //uint8_t
+    mp3ConfigVariables.filterType = NO_FILTER; //uint8_t
 }
 
 /******************************************************************************/

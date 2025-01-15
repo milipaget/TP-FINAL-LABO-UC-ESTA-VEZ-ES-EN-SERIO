@@ -52,7 +52,7 @@ __ISR__ PORTD_IRQHandler(void){
 	PORT_ClearInterruptFlag(pin_num,PD);
 	( *PTRS_TO_FUN[(3*PORT_PCR_COUNT) + pin_num] )();
 }
-__ISR__ PORTE_IRQHandler(void){
+__ISR__ PORTE_IRQHandler_2(void){
 	uint8_t pin_num = FindPinNum(PE);
 	PORT_ClearInterruptFlag(pin_num,PE);
 	( *PTRS_TO_FUN[(4*PORT_PCR_COUNT) + pin_num] )();

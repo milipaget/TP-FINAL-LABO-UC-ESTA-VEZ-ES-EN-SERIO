@@ -60,9 +60,9 @@ static timer_t timers[TIMERS_MAX_CANT];
  *******************************************************************************
  ******************************************************************************/
 
-void timerInit(void){
+bool timerInit(void){
     static bool yaInit = false;
-	if(Systick_Config(__CORE_CLOCK__/REF_FREQ) == 0){
+	if(SysTick_Config(__CORE_CLOCK__/REF_FREQ) == 0){
 		NVIC_EnableIRQ(SysTick_IRQn);
 		yaInit = true;
 	}

@@ -76,12 +76,12 @@ void initializeLEDMatrix(void) {
     PWM_GenWaveform(pwmBuffer, TOTAL_LEDS * LED_BITS_PER_PIXEL + 2, 1, handleRefreshEnd);
 
     // Timer para actualizar la matriz
-    refreshTimerId = createTimer(REFRESH_RATE_HZ, refreshMatrix);
+    refreshTimerId = createTimerPIT(REFRESH_RATE_HZ, refreshMatrix);
     // Timer para el blink -> CAPAZ NO LO NECESITAMOS
-    blinkTimerId = createTimer(DEFAULT_BLINK_INTERVAL_MS, toggleBlinkingLEDs);
+    blinkTimerId = createTimerPIT(DEFAULT_BLINK_INTERVAL_MS, toggleBlinkingLEDs);
 
-    startTimer(refreshTimerId);
-    startTimer(blinkTimerId);
+    startTimerPIT(refreshTimerId);
+    startTimerPIT(blinkTimerId);
 }
 // Prende el LED indicado
 void turnOnLED(uint8_t row, uint8_t col) {
@@ -118,7 +118,7 @@ void setLEDColor(uint8_t row, uint8_t col, LED_Color_t color) {
 void enableLEDBlink(uint8_t row, uint8_t col, float intervalMs) {
     ledMatrix[row * MATRIX_COLS + col].isBlinking = LED_ON;
     ledMatrix[row * MATRIX_COLS + col].isOn = LED_ON;
-    configTimerTime(blinkTimerId, intervalMs); // Esto no sé si está bien
+    configTimerTimePIT(blinkTimerId, intervalMs); // Esto no sé si está bien
 }
 // Hace que el LED no titile
 void disableLEDBlink(uint8_t row, uint8_t col) {

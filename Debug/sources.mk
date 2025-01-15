@@ -14,16 +14,12 @@ C_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
-CMSIS \
 SDK/CMSIS \
 SDK/startup \
 board \
 component/lists \
 component/osa \
 component/uart \
-drivers \
-fatfs/source \
-fatfs/source/fsl_sd_disk \
 sdmmc/host \
 sdmmc/osa \
 sdmmc/src \
@@ -35,5 +31,4 @@ source/music\ handler \
 source/our\ drivers \
 source/protocols \
 source/timers \
-utilities \
 

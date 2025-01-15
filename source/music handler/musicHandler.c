@@ -142,7 +142,7 @@ bool startPlaying(){
         MP3SelectSong(currentSong->data);
 
         EDMA_AbortTransfer(&DMA_CH3_Handle);
-        uint32_t decodedSamples = MP3DecDecode(pingBuffer, &pingSampleRate);
+        uint32_t decodedSamples = MP3DecDecode(pingBuffer, &sampleRate);
         PIT_SetTimerPeriod(PIT, kPIT_Chnl_3, PIT_CLK_FREQ / sampleRate);
         // Filtrado, casteo a 12 bits y correccion de offset
         processSamples(pingBuffer, decodedSamples, sampleRate);
@@ -174,7 +174,7 @@ bool stopPlayer()
     PIT_StopTimer(PIT, kPIT_Chnl_3);
     DAC0->DAT[0].DATH = 0x8U; // Pull to middle
     DAC0->DAT[0].DATL = 0x00U;
-    turnOffVumeter();
+    //turnOffVumeter();
     state = STOPPED;
     return false;
 }
@@ -194,7 +194,7 @@ bool pausePlayer()
     return false;
 }
 
-bool nextSong()
+bool goToNextSong(void)
 {
 	if (SDstate != SD_READY)
 	{
@@ -244,7 +244,7 @@ bool nextSong()
     return false;
 }
 
-bool prevSong()
+bool goToPrevSong(void)
 {
 	if (SDstate != SD_READY)
 	{
@@ -388,7 +388,7 @@ player_msg_t updatePlayer()
             decodedSamples = MP3DecDecode(pongBuffer, &sampleRate);
             if (decodedSamples == 0)
             {
-                nextSong();
+            	goToNextSong();
                 //putEvent(AutoNextSong); //No se q onda esto
                 return 0;
             }
@@ -407,7 +407,7 @@ player_msg_t updatePlayer()
             decodedSamples = MP3DecDecode(pingBuffer, &sampleRate);
             if (decodedSamples == 0)
             {
-                nextSong();
+            	goToNextSong();
                 //putEvent(AutoNextSong); //No se q onda esto
                 return 0;
             }
@@ -502,9 +502,6 @@ static void readMP3Files(const char *path)
     FRESULT result = f_opendir(&directory, path); // Open the directory
     if (result != FR_OK)
     {
-#if DEBUG==1
-        printf("Error opening directory: %d\n", result);
-#endif
         return;
     }
 
@@ -537,9 +534,6 @@ static void readMP3Files(const char *path)
             // If it's a file, check for ".mp3" extension
             if (strstr(fileInfo.fname, ".mp3") != NULL)
             {
-#if DEBUG==1
-                printf("MP3 File: %s/%s\n", path, fileInfo.fname);
-#endif
                 // Add the file to the list
                 pushtoBack(newSong(path, fileInfo.fname));
             }
@@ -561,7 +555,7 @@ void processSamples(int16_t *buff, uint32_t buffSize, float samprate)
         floatSamplesaux[i] = (float)buff[i] / 16.0f * volume;
     }
 
-    processEqualizer(floatSamplesaux, floatSamples, buffSize);
+    //processEqualizer(floatSamplesaux, floatSamples, buffSize);
 
     for (size_t i = 0; i < buffSize; i++)
     {
@@ -581,13 +575,13 @@ void processSamples(int16_t *buff, uint32_t buffSize, float samprate)
             buff[i] = (uint16_t)floatSamples[i];
         }
     }
-    analizeBlock(floatSamplesaux, buffSize, samprate);
-    analisis2vumeter(vumeterDataout);
+    //analizeBlock(floatSamplesaux, buffSize, samprate);
+    //analisis2vumeter(vumeterDataout);
 
     for (size_t i = 0; i < 8; i++)
     {
-        selectBar(7 - i);
-        setLevel(vumeterDataout[i]);
+       // selectBar(7 - i);
+        //setLevel(vumeterDataout[i]);
     }
 }
 

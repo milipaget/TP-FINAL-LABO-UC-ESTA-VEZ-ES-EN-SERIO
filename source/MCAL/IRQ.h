@@ -97,7 +97,7 @@ __ISR__ PORTD_IRQHandler(void);
  * @param void
  * @returns interruption Void
  */
-__ISR__ PORTE_IRQHandler(void);
+__ISR__ PORTE_IRQHandler_2(void);
 
 
 

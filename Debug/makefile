@@ -8,7 +8,6 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include utilities/subdir.mk
 -include source/timers/subdir.mk
 -include source/protocols/subdir.mk
 -include source/our\ drivers/subdir.mk
@@ -20,16 +19,12 @@ RM := rm -rf
 -include sdmmc/src/subdir.mk
 -include sdmmc/osa/subdir.mk
 -include sdmmc/host/subdir.mk
--include fatfs/source/fsl_sd_disk/subdir.mk
--include fatfs/source/subdir.mk
--include drivers/subdir.mk
 -include component/uart/subdir.mk
 -include component/osa/subdir.mk
 -include component/lists/subdir.mk
 -include board/subdir.mk
 -include SDK/startup/subdir.mk
 -include SDK/CMSIS/subdir.mk
--include CMSIS/subdir.mk
 -include subdir.mk
 -include objects.mk
 

@@ -1,9 +1,10 @@
 sdmmc/src/fsl_sdmmc_common.o sdmmc/src/fsl_sdmmc_common.d: \
  ../sdmmc/src/fsl_sdmmc_common.c ../sdmmc/inc/fsl_sdmmc_common.h \
- ../drivers/fsl_common.h ../CMSIS/fsl_device_registers.h \
- ../CMSIS/MK64F12.h ../CMSIS/core_cm4.h ../CMSIS/cmsis_version.h \
- ../CMSIS/cmsis_compiler.h ../CMSIS/cmsis_gcc.h ../CMSIS/system_MK64F12.h \
- ../CMSIS/MK64F12_features.h ../drivers/fsl_common_arm.h \
+ ../drivers/fsl_common.h ../SDK/CMSIS/fsl_device_registers.h \
+ ../SDK/CMSIS/MK64F12.h ../SDK/CMSIS/core_cm4.h \
+ ../SDK/CMSIS/cmsis_version.h ../SDK/CMSIS/cmsis_compiler.h \
+ ../SDK/CMSIS/cmsis_gcc.h ../SDK/CMSIS/system_MK64F12.h \
+ ../SDK/CMSIS/MK64F12_features.h ../drivers/fsl_common_arm.h \
  ../drivers/fsl_clock.h ../drivers/fsl_common.h \
  ../sdmmc/host/fsl_sdmmc_host.h ../drivers/fsl_sdhc.h \
  ../sdmmc/osa/fsl_sdmmc_osa.h ../component/osa/fsl_os_abstraction.h \
@@ -15,21 +16,21 @@ sdmmc/src/fsl_sdmmc_common.o sdmmc/src/fsl_sdmmc_common.d: \
 
 ../drivers/fsl_common.h:
 
-../CMSIS/fsl_device_registers.h:
+../SDK/CMSIS/fsl_device_registers.h:
 
-../CMSIS/MK64F12.h:
+../SDK/CMSIS/MK64F12.h:
 
-../CMSIS/core_cm4.h:
+../SDK/CMSIS/core_cm4.h:
 
-../CMSIS/cmsis_version.h:
+../SDK/CMSIS/cmsis_version.h:
 
-../CMSIS/cmsis_compiler.h:
+../SDK/CMSIS/cmsis_compiler.h:
 
-../CMSIS/cmsis_gcc.h:
+../SDK/CMSIS/cmsis_gcc.h:
 
-../CMSIS/system_MK64F12.h:
+../SDK/CMSIS/system_MK64F12.h:
 
-../CMSIS/MK64F12_features.h:
+../SDK/CMSIS/MK64F12_features.h:
 
 ../drivers/fsl_common_arm.h:
 

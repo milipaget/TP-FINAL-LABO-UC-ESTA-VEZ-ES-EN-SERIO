@@ -55,7 +55,7 @@ typedef void (*tim_callback_t)(void);
 /**
  * @brief Initialice timer and corresponding peripheral
  */
-void timerInit(void);
+bool timerInit(void);
 
 /**
  * @brief Create a new timer

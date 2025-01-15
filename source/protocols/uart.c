@@ -53,7 +53,7 @@ static buffer_t tx[UART_CANT_IDS];
  * @param baudrate chosen baudrate to set.
  * @return void.
  */
-void UART_SetBaudRate(UART_Type *uart, uint32_t baudrate);
+void UART_SetBaudRate_2(UART_Type *uart, uint32_t baudrate);
 
 /*******************************************************************************
  *  GLOBAL FUNCTIONS DEFINITIONS
@@ -85,7 +85,7 @@ void uartInit (uint8_t id , uart_cfg_t config){
 	port->PCR[UART_TX_PIN] |= PORT_PCR_MUX(PORT_mAlt3); //Alt3
 
 	//UART0 Set UART Speed
-	UART_SetBaudRate(uart_p, config.baudrate);
+	UART_SetBaudRate_2(uart_p, config.baudrate);
 
 	//Enable UART0 Xmiter and Rcvr
 	uart_p->C2=UART_C2_TE_MASK | UART_C2_RE_MASK | UART_C2_RIE_MASK; //     transmiter full interrupt // receiver full interrupt //  receiver full interrupt
@@ -183,8 +183,7 @@ uint8_t uartIsTxMsgComplete(uint8_t id){
 
 
 
-void UART_SetBaudRate (UART_Type *uart, uint32_t baudrate)
-{
+void UART_SetBaudRate_2 (UART_Type *uart, uint32_t baudrate){
 	uint16_t sbr, brfa;
 	uint32_t clock;
 
@@ -258,21 +257,21 @@ void UARTX_IRQ_HANDLER(uint8_t id){
         }
 */
 //Hago el control de interrupcinoes
-__ISR__ UART0_RX_TX_IRQHandler(void){
+__ISR__ UART0_RX_TX_IRQHandler_2(void){
 	UARTX_IRQ_HANDLER(0);
 }
-__ISR__ UART1_RX_TX_IRQHandler(void){
+__ISR__ UART1_RX_TX_IRQHandler_2(void){
 	UARTX_IRQ_HANDLER(1);
 }
-__ISR__ UART2_RX_TX_IRQHandler(void){
+__ISR__ UART2_RX_TX_IRQHandler_2(void){
 	UARTX_IRQ_HANDLER(2);
 }
-__ISR__ UART3_RX_TX_IRQHandler(void){
+__ISR__ UART3_RX_TX_IRQHandler_2(void){
 	UARTX_IRQ_HANDLER(3);
 }
-__ISR__ UART4_RX_TX_IRQHandler(void){
+__ISR__ UART4_RX_TX_IRQHandler_2(void){
 	UARTX_IRQ_HANDLER(4);
 }
-__ISR__ UART5_RX_TX_IRQHandler(void){
+__ISR__ UART5_RX_TX_IRQHandler_2(void){
 	UARTX_IRQ_HANDLER(5);
 }

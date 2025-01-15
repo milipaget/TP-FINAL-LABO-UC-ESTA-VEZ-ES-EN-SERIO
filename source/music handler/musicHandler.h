@@ -52,8 +52,8 @@ typedef struct _Player
 bool playPlayer();
 bool stopPlayer();
 bool pausePlayer();
-bool nextSong();
-bool prevSong();
+bool goToNextSong();
+bool goToPrevSong();
 void adjustVolume(float vol);
 char *getCurrentSongName();
 

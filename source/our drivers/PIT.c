@@ -33,7 +33,7 @@ void initPIT()
 }
 
 // Crea un nuevo temporizador con un tiempo específico en microsegundos y asigna una callback
-uint8_t createTimer(float time, void (*funcallback)(void))
+uint8_t createTimerPIT(float time, void (*funcallback)(void))
 {
 
 	uint8_t i = 0;
@@ -62,7 +62,7 @@ uint8_t createTimer(float time, void (*funcallback)(void))
 }
 
 // Configura un temporizador existente con un nuevo valor de tiempo
-void configTimerTime(uint8_t id, float time)
+void configTimerTimePIT(uint8_t id, float time)
 {
 	PIT->CHANNEL[id].TCTRL &= ~PIT_TCTRL_TEN_MASK; 	// Detiene el timer
 	PIT->CHANNEL[id].LDVAL = (int)(time / REFERENCE);	// Modifica el valor con un nuevo tiempo
@@ -70,14 +70,14 @@ void configTimerTime(uint8_t id, float time)
 }
 
 // Destruye un temporizador, liberando el canal para ser reutilizado
-void destroyTimer(uint8_t id)
+void destroyTimerPIT(uint8_t id)
 {
 	PIT->CHANNEL[id].TCTRL &= ~PIT_TCTRL_TEN_MASK; // Detiene el temporizador
 	timer[id].state = FREE;	// Lo marca como libre
 }
 
 // Inicia un temporizador (empieza a contar)
-void startTimer(uint8_t id)
+void startTimerPIT(uint8_t id)
 {
 	PIT->CHANNEL[id].TCTRL |= PIT_TCTRL_TEN_MASK;
 	if (timer[id].state != FREE)
@@ -87,7 +87,7 @@ void startTimer(uint8_t id)
 }
 
 // Detiene un temporizador (suspende el conteo)
-void stopTimer(uint8_t id)
+void stopTimerPIT(uint8_t id)
 {
 	PIT->CHANNEL[id].TCTRL &= ~PIT_TCTRL_TEN_MASK;
 	if (timer[id].state != FREE)
@@ -97,13 +97,13 @@ void stopTimer(uint8_t id)
 }
 
 // Obtiene el valor actual del contador de un temporizador
-uint32_t getTime(uint8_t id)
+uint32_t getTimePIT(uint8_t id)
 {
 	return PIT->CHANNEL[id].CVAL;
 }
 
 // Obtiene el estado actual de un temporizador (FREE, IDLE, RUNNING)
-uint8_t getTimerState(uint8_t id)
+uint8_t getTimerStatePIT(uint8_t id)
 {
 	return timer[id].state;
 }
